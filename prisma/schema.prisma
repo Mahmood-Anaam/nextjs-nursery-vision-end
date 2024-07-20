@@ -18,7 +18,48 @@ model User {
   email     String   @unique
   username  String   @db.VarChar(50)
   password  String
-  isAdmin   Boolean  
+  isAdmin   Boolean
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+model Parent {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  phone     String
+  gender    Gender
+  address   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  children  Child[]
+}
+
+model Child {
+  id         Int         @id @default(autoincrement())
+  name       String
+  gender     Gender
+  age        Int
+  checkIn    DateTime
+  checkOut   DateTime
+  parentId   Int
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  parent     Parent      @relation(fields: [parentId], references: [id])
+  facePhotos FacePhoto[]
+}
+
+model FacePhoto {
+  id        Int      @id @default(autoincrement())
+  photo     String
+  childId   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  child     Child    @relation(fields: [childId], references: [id])
 }
