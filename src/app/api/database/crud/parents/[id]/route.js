@@ -75,7 +75,6 @@ export async function DELETE(request, { params }) {
     });
     return NextResponse.json({ message: "parent deleted" }, { status: 200 });
   } catch (error) {
-    console.log('yyyyyyyyyyyyyyyyyyyyy',error)
     return NextResponse.json(
       { message: "internal server error" },
       { status: 500 }

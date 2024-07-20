@@ -93,15 +93,14 @@ const ParentsGrid = () => {
     dispatch({ type: "SET_SELECTED_PARENT", payload: parent });
     dispatch({
       type: "SET_CONFIRM_ACTION",
-      payload: () => () => {deleteParent(parent)},
+      payload: () => {deleteParent(parent.id)},
     });
     dispatch({ type: "TOGGLE_CONFIRM_DIALOG" });
   };
 
-  const deleteParent = async ({id}) => {
-    alert('yyyyyyyyyyyyyy')
+  const deleteParent = async (id) => {
+ 
     const response = await fetch(`/api/database/crud/parents/${id}`, { method: "DELETE" });
-    alert(response)
     fetchParents();
     dispatch({
       type: "SET_SNACKBAR",
@@ -124,7 +123,7 @@ const ParentsGrid = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(state.selectedParent),
     });
-    await fetchParents();
+    fetchParents();
     dispatch({ type: "TOGGLE_EDIT_DIALOG" });
     dispatch({
       type: "SET_SNACKBAR",
@@ -209,6 +208,15 @@ const ParentsGrid = () => {
       }}
     >
       <div style={{ height: 600, width: "100%" }}>
+      <Button
+          variant="contained"
+          color="primary"
+          startIcon={<IconPlus />}
+          onClick={handleAddParent}
+          style={{ marginTop: 10 }}
+        >
+          Add Parent
+        </Button>
         <DataGrid
           rows={state.parents}
           columns={columns}
@@ -222,9 +230,12 @@ const ParentsGrid = () => {
           loading={state.loading}
           slots={{
             toolbar: GridToolbar,
+            
+            
           }}
+          
         />
-        <Button
+        {/* <Button
           variant="contained"
           color="primary"
           startIcon={<IconPlus />}
@@ -232,7 +243,7 @@ const ParentsGrid = () => {
           style={{ marginTop: 10 }}
         >
           Add Parent
-        </Button>
+        </Button> */}
       </div>
       <Dialog
         open={state.openChildrenDialog}
